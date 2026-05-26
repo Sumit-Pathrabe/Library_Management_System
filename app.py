@@ -9,7 +9,7 @@ conn = psycopg2.connect(
     host="localhost",
     database="library_db",
     user="postgres",
-    password="YOUR_PASSWORD",
+    password="sumit",
     cursor_factory=RealDictCursor
 )
 cursor = conn.cursor()
