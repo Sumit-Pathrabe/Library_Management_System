@@ -113,5 +113,28 @@ def update_book(book_id: int, updated_book: Book):
         "book": book
     }
 
+# Delete Book
+@app.delete("/books/{book_id}")
+def delete_book(book_id: int):
 
+    cursor.execute(
+        "DELETE FROM books WHERE id = %s RETURNING *;",
+        (book_id,)
+    )
+
+    deleted_book = cursor.fetchone()
+
+    if not deleted_book:
+        raise HTTPException(
+            status_code=404,
+            detail="Book not found"
+        )
+
+    conn.commit()
+
+    return {
+        "message": "Book deleted successfully",
+        "book": deleted_book
+    }
+    
 
