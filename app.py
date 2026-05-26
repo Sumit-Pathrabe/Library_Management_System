@@ -12,3 +12,10 @@ conn = psycopg2.connect(
     password="YOUR_PASSWORD",
     cursor_factory=RealDictCursor
 )
+cursor = conn.cursor()
+
+# Pydantic Model
+class Book(BaseModel):
+    title: str
+    author: str
+    pages: int
