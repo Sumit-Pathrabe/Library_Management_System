@@ -57,3 +57,24 @@ def get_books():
     books = cursor.fetchall()
 
     return books
+
+# View Single Book by ID
+@app.get("/books/{book_id}")
+def get_book(book_id: int):
+
+    cursor.execute(
+        "SELECT * FROM books WHERE id = %s;",
+        (book_id,)
+    )
+
+    book = cursor.fetchone()
+
+    if not book:
+        raise HTTPException(
+            status_code=404,
+            detail="Book not found"
+        )
+
+    return book
+
+
