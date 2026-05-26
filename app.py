@@ -24,3 +24,27 @@ class Book(BaseModel):
 @app.get("/")
 def home():
     return {"message": "Library Management System API"}
+
+# Add New Book
+@app.post("/books")
+def add_book(book: Book):
+
+    query = """
+    INSERT INTO books (title, author, pages)
+    VALUES (%s, %s, %s)
+    RETURNING *;
+    """
+
+    cursor.execute(
+        query,
+        (book.title, book.author, book.pages)
+    )
+
+    new_book = cursor.fetchone()
+
+    conn.commit()
+
+    return {
+        "message": "Book added successfully",
+        "book": new_book
+    }
