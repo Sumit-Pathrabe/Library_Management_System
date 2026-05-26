@@ -19,3 +19,8 @@ class Book(BaseModel):
     title: str
     author: str
     pages: int
+
+# Home Route
+@app.get("/")
+def home():
+    return {"message": "Library Management System API"}
