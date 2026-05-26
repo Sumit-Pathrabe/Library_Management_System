@@ -48,3 +48,12 @@ def add_book(book: Book):
         "message": "Book added successfully",
         "book": new_book
     }
+# View All Books
+@app.get("/books")
+def get_books():
+
+    cursor.execute("SELECT * FROM books;")
+
+    books = cursor.fetchall()
+
+    return books
