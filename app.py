@@ -77,4 +77,41 @@ def get_book(book_id: int):
 
     return book
 
+# Update Book
+@app.put("/books/{book_id}")
+def update_book(book_id: int, updated_book: Book):
+
+    cursor.execute(
+        """
+        UPDATE books
+        SET title = %s,
+            author = %s,
+            pages = %s
+        WHERE id = %s
+        RETURNING *;
+        """,
+        (
+            updated_book.title,
+            updated_book.author,
+            updated_book.pages,
+            book_id
+        )
+    )
+
+    book = cursor.fetchone()
+
+    if not book:
+        raise HTTPException(
+            status_code=404,
+            detail="Book not found"
+        )
+
+    conn.commit()
+
+    return {
+        "message": "Book updated successfully",
+        "book": book
+    }
+
+
 
